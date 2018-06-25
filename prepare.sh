@@ -37,7 +37,8 @@ function install_python_packages()
     # Install Python packages
     echo -e "${C_GREEN}Installing python packages...${C_NONE}"
     python3 -m pip install --upgrade pip
-    python3 -m pip install numpy tensorflow 
+    python3 -m pip install numpy  
+    python3 -m pip install tensorflow==1.5.0 
     [[ $? != 0 ]] && echo -e "${C_RED_BK}Failed... :(${C_NONE}" && exit 1
 }
 
