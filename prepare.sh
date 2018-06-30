@@ -86,7 +86,7 @@ function install_packages()
 	[[ $? != 0 ]] && echo -e "${C_RED_BK}Failed... :(${C_NONE}" && exit 1
     elif [[ $(which yum) ]]  ; then
         sudo yum install -y epel-release 
-        sudo yum install -y centos-release-scl devtoolset-4-gcc* python3 python-pip sshpass
+        sudo yum install -y centos-release-scl devtoolset-4-gcc* python34 python34-pip sshpass
         [[ $? != 0 ]] && echo -e "${C_RED_BK}Failed... :(${C_NONE}" && exit 1
     else
         echo -e "${C_RED_BK}This script does not support your OS distribution, '$OS'. Please install the required packages by yourself. :(${C_NONE}"
