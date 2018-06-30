@@ -32,6 +32,14 @@ function inform_sudo()
     [[ $? != 0 ]] && >&2 echo -e "\033[1;31mAbort\033[0m" && exit 1;
 }
 
+function prepare_demo()
+{
+	cd ~
+	git clone https://github.com/cyliustack/benchmark
+	cp ~/benchmark/mpi/tools/demo.sh .
+	cp ~/benchmark/mpi/tools/demo-npb.sh .
+}
+
 function install_benchmarks()
 {
 	# Install Python packages
@@ -51,7 +59,7 @@ function install_benchmarks()
  	if [[ $(which mpirun) ]]; then	
 		echo export PATH=/opt/mpich/bin:$PATH >> ~/.bashrc
  		echo export LD_LIBRARY_PATH=/opt/mpich/lib:$LD_LIBRARY_PATH >> ~/.bashrc
-	fi
+	fi	
 	[[ $? != 0 ]] && echo -e "${C_RED_BK}Failed... :(${C_NONE}" && exit 1
 }
 
@@ -74,11 +82,11 @@ function install_packages()
     if [[ $(which apt) ]] ; then
         sudo apt-get update
         sudo apt-get update --fix-missing
-	sudo apt-get install -y gcc g++ curl wget python3 python3-pip gfortran
+	sudo apt-get install -y gcc g++ curl wget python3 python3-pip gfortran sshpass
 	[[ $? != 0 ]] && echo -e "${C_RED_BK}Failed... :(${C_NONE}" && exit 1
     elif [[ $(which yum) ]]  ; then
         sudo yum install -y epel-release 
-        sudo yum install -y centos-release-scl devtoolset-4-gcc* python3 python-pip
+        sudo yum install -y centos-release-scl devtoolset-4-gcc* python3 python-pip sshpass
         [[ $? != 0 ]] && echo -e "${C_RED_BK}Failed... :(${C_NONE}" && exit 1
     else
         echo -e "${C_RED_BK}This script does not support your OS distribution, '$OS'. Please install the required packages by yourself. :(${C_NONE}"
@@ -93,4 +101,5 @@ printf "\n\n"
 install_packages
 install_python_packages
 install_benchmarks
+prepare_demo
 echo -e "${C_GREEN}Complete!!${C_NONE}"
